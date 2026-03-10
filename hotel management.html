@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hotel Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+<style>
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 0;
+  background: url("https://images.unsplash.com/photo-1566073771259-6a8506099945") no-repeat center/cover;
+  color: #333;
+}
+.overlay {
+  background: rgba(0, 0, 0, 0.65);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+header p {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+nav {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+nav button {
+  padding: 12px 25px;
+  margin: 0 10px;
+  border: none;
+  background:#1abc9c;
+  color: white;
+  font-size: 16px;
+  cursor:pointer;
+  border-radius: 5px;
+  transition: background 0.3s, transform 0.2s;
+}
+nav button:hover, nav button.active {
+  background:#16a085;
+  transform: scale(1.05);
+}
+.section {
+  display: none;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  transition: opacity 0.5s;
+}
+.section.active {
+  display: block;
+  opacity: 1;
+}
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+.card {
+  width: 250px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+.card h3 {
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+}
+.staff-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  max-width: 200px;
+  margin: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.staff-member:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.staff-member h4 {
+  margin: 10px 0 5px 0;
+}
+.staff-member p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+.booking-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.booking-container h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.booking-form {
+  display: flex;
+  flex-direction: column;
+}
+.booking-form label {
+  margin-top: 10px;
+}
+.booking-form input, .booking-form select {
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.booking-summary {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  display: none;
+}
+.booking-summary h4 {
+  margin-top: 0;
+}
+.booking-summary p {
+  margin: 5px 0;
+}
+.booking-btn {
+  margin-top: 15px;
+  padding: 10px;
+  background:#27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor:pointer;
+  font-size: 1em;
+}
+.booking-btn:hover {
+  background:#219150;
+}
+footer {
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+footer a {
+  color: #fff;
+  margin: 0 8px;
+  text-decoration: none;
+}
+footer a:hover {
+  color: #ffd700;
+}
+#popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  z-index: 1000;
+  overflow-y: auto;
+}
+#popup h2 {
+  margin-top: 0;
+}
+#popup .popup-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #c0392b;
+}
+#popup img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+#popup ul {
+  padding-left: 20px;
+}
+</style>
+</head>
+<body>
+<div class="overlay">
+<header>
+<h1>Hotel Management System</h1>
+<p>Luxury Hotel Services & Features</p>
+</header>
+<nav>
+<button class="active" onclick="showSection('rooms', this)">Rooms</button>
+<button onclick="showSection('staff', this)">Staff</button>
+<button onclick="showSection('booking', this)">Book a Room</button>
+</nav>
+<div id="rooms" class="section active">
+<div class="cards">
+<div class="card" onclick="showRoom(
+'Single Room',
+'₹2000 / Night',
+'1 Bed',
+'AC, Free WiFi, TV, Room Service',
+'https://images.unsplash.com/photo-1590490360182-c33d57733427'
+)">
+<img src="https://images.unsplash.com/photo-1590490360182-c33d57733427" alt="Single Room"/>
+<h3>Single Room</h3>
+</div>
+<div class="card" onclick="showRoom(
+'Deluxe Room',
+'₹3500 / Night',
+'2 Beds',
+'AC, Smart TV, WiFi, Balcony, Mini Fridge',
+'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b'
+)">
+<img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" alt="Deluxe Room"/>
+<h3>Deluxe Room</h3>
+</div>
+<div class="card" onclick="showRoom(
+'Suite Room',
+'₹7000 / Night',
+'Luxury Suite',
+'Living Room, King Bed, AC, WiFi, Smart TV, Bathtub, Mini Bar',
+'https://images.unsplash.com/photo-1566665797739-1674de7a421a'
+)">
+<img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a" alt="Suite Room"/>
+<h3>Suite Room</h3>
+</div>
+</div>
+</div>
+<div id="staff" class="section">
+<h2 style="text-align:center; margin-top:20px; color:#fff;">Our Staff</h2>
+<div style="display:flex; flex-wrap:wrap; justify-content:center;">
+<div class="staff-member">
+<h4>Mr. John</h4>
+<p>Manager</p>
+<p>Email: john@hotel.com</p>
+<p>Phone: +91 98765 43210</p>
+</div>
+<div class="staff-member">
+<h4>Ms. Emma</h4>
+<p>Receptionist</p>
+<p>Email: emma@hotel.com</p>
+<p>Phone: +91 87654 32109</p>
+</div>
+<div class="staff-member">
+<h4>Mr. David</h4>
+<p>Chef</p>
+<p>Email: dave@hotel.com</p>
+<p>Phone: +91 76543 21098</p>
+</div>
+</div>
+</div>
+<div id="booking" class="section">
+<h2 style="text-align:center; margin-top:20px; color:#fff;">Book Your Stay</h2>
+<div class="booking-container">
+<h3 style="text-align:center;">Reservation Form</h3>
+<form id="reservationForm" class="booking-form" onsubmit="return handleBooking(event)">
+<label for="name">Name:</label>
+<input type="text" id="name" required />
+<label for="roomType">Room Type:</label>
+<select id="roomType" required>
+<option value="">Select a room</option>
+<option value="Single Room">Single Room</option>
+<option value="Deluxe Room">Deluxe Room</option>
+<option value="Suite Room">Suite Room</option>
+</select>
+<label for="checkIn">Check-in Date:</label>
+<input type="date" id="checkIn" required />
+<label for="checkOut">Check-out Date:</label>
+<input type="date" id="checkOut" required />
+<button type="submit" class="booking-btn">Book Now</button>
+</form>
+<div class="booking-summary" id="bookingSummary">
+<h4>Booking Summary</h4>
+<p><b>Name:</b> <span id="summaryName"></span></p>
+<p><b>Room Type:</b> <span id="summaryRoom"></span></p>
+<p><b>Check-in:</b> <span id="summaryCheckIn"></span></p>
+<p><b>Check-out:</b> <span id="summaryCheckOut"></span></p>
+</div>
+</div>
+</div>
+<footer>
+<p>Contact us: info@hotel.com | +91 12345 67890</p>
+<p>Location: <a href="https://goo.gl/maps/xyz" target="_blank">Our Hotel Location</a></p>
+<p>
+Follow us:
+<a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="#">Twitter</a>
+</p>
+</footer>
+</div>
+<div id="popup" class="popup">
+<span class="popup-close" onclick="closePopup()">&times;</span>
+<h2 id="roomName"></h2>
+<img id="roomImage" src="" alt="Room Image"/>
+<p><b>Price:</b> <span id="roomPrice"></span></p>
+<p><b>Bed Type:</b> <span id="roomBed"></span></p>
+<p><b>Facilities:</b></p>
+<ul id="roomFacilities"></ul>
+</div>
+<script>
+function showSection(id, btn=null){
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+function showRoom(name, price, bed, facilities, imageUrl){
+  document.getElementById("roomName").innerText = name;
+  document.getElementById("roomPrice").innerText = price;
+  document.getElementById("roomBed").innerText = bed;
+  let list = document.getElementById("roomFacilities");
+  list.innerHTML = "";
+  facilities.split(",").forEach(fac => {
+    let li = document.createElement("li");
+    li.innerText = fac.trim();
+    list.appendChild(li);
+  });
+  document.getElementById("roomImage").src = imageUrl;
+  document.getElementById("popup").style.display = "block";
+}
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+function handleBooking(e) {
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const roomType = document.getElementById("roomType").value;
+  const checkIn = document.getElementById("checkIn").value;
+  const checkOut = document.getElementById("checkOut").value;
+  document.getElementById("summaryName").innerText = name;
+  document.getElementById("summaryRoom").innerText = roomType;
+  document.getElementById("summaryCheckIn").innerText = checkIn;
+  document.getElementById("summaryCheckOut").innerText = checkOut;
+  document.getElementById("bookingSummary").style.display = "block";
+  alert("Thank you! Your booking has been received.");
+  document.getElementById("reservationForm").reset();
+  showSection('rooms');
+}
+</script>
+</body>
+</html>

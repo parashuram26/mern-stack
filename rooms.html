@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hotel Management System</title>
+<style>
+body{
+font-family: Arial; 
+text-align:center;
+background-image:url("https://images.unsplash.com/photo-1566665797739-1674de7a421a");
+background-size:cover;
+color:white;
+}
+.room{
+display:inline-block;
+margin:20px;
+background:white;
+color:black;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+width:200px;
+}
+.room img{
+width:200px;
+height:150px;
+border-radius:10px;
+}
+#details{
+margin-top:30px;
+background:white;
+color:black;
+display:inline-block;
+padding:20px;
+border-radius:10px;
+}
+</style>
+</head>
+<body>
+<h1>Hotel Management Elite</h1>
+<h3>Click a room to see details</h3>
+<div class="room" onclick="showDetails('Single Room','₹2000','AC, WiFi, TV, Room Service')">
+<img src="https://images.unsplash.com/photo-1590490360182-c33d57733427">
+<h3>Single Room</h3>
+</div>
+<div class="room" onclick="showDetails('Deluxe Room','₹3500','AC, WiFi, TV, Balcony, Mini Fridge')">
+<img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b">
+<h3>Deluxe Room</h3>
+</div>
+<div class="room" onclick="showDetails('Suite Room','₹7000','King Bed, Living Room, AC, WiFi')">
+<img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a">
+<h3>Suite Room</h3>
+</div>
+<div id="details">
+<h2>Room Details</h2>
+<p id="name"></p>
+<p id="price"></p>
+<p id="facility"></p>
+</div>
+<script>
+function showDetails(name,price,facility){
+document.getElementById("name").innerHTML="Room: "+name;
+document.getElementById("price").innerHTML="Price: "+price+" / Night";
+document.getElementById("facility").innerHTML="Facilities: "+facility;
+}
+</script>
+</body>
+</html>

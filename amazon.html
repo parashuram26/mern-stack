@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Amazon Clone</title>
+<style>
+body{
+font-family: Arial;
+text-align:center;
+margin:0;
+background-image:url("https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a");
+background-size:cover;
+background-attachment:fixed;
+color:black;
+}
+.header{
+background:#232f3e;
+color:white;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+}
+.container{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:20px;
+padding:30px;
+}
+.product{
+background:white;
+padding:15px;
+width:250px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+cursor:pointer;
+}
+.product img{
+width:100%;
+height:170px;
+object-fit:cover;
+border-radius:10px;
+}
+.price{
+color:#c0392b;
+font-weight:bold;
+font-size:18px;
+}
+#details{
+display:none;
+background:white;
+margin:20px auto;
+padding:20px;
+width:300px;
+border-radius:10px;
+box-shadow:0 4px 10px black;
+}
+.buy-btn{
+background:#ff9900;
+border:none;
+padding:10px 20px;
+border-radius:5px;
+cursor:pointer;
+font-weight:bold;
+}
+.buy-btn:hover{
+background:#f0c14b;
+}
+</style>
+</head>
+<body>
+<div class="header">
+Amazon Clone Store
+</div>
+<div class="container">
+<div class="product" onclick="showDetails('Wireless Headphones','₹2999','Bluetooth, Noise Cancellation, 20hr Battery')">
+<img src="https://images.unsplash.com/photo-1583394838336-acd977736f90">
+<h3>Wireless Headphones</h3>
+<p class="price">₹2999</p>
+</div>
+<div class="product" onclick="showDetails('Smart Watch','₹4999','Heart Rate Monitor, Fitness Tracking, Waterproof')">
+<img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
+<h3>Smart Watch</h3>
+<p class="price">₹4999</p>
+</div>
+<div class="product" onclick="showDetails('Gaming Laptop','₹89999','16GB RAM, RTX Graphics, 1TB SSD')">
+<img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302">
+<h3>Gaming Laptop</h3>
+<p class="price">₹89999</p>
+</div>
+</div>
+<!-- Details Box -->
+<div id="details">
+<h2 id="name"></h2>
+<p id="price"></p>
+<p id="features"></p>
+<button class="buy-btn">Buy Now</button>
+</div>
+<script>
+function showDetails(name,price,features){
+document.getElementById("details").style.display="block";
+document.getElementById("name").innerHTML=name;
+document.getElementById("price").innerHTML="Price: "+price;
+document.getElementById("features").innerHTML="Features: "+features;
+}
+</script>
+</body>
+</html>
