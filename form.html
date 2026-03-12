@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Student Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 450px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .checkbox-group {
+            margin-bottom: 15px;
+        }
+        .checkbox-group label {
+            font-weight: normal;
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Student Registration Form</h2>
+        <form id="registrationForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter full name">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter email">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" placeholder="Enter phone number">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="10" max="100" placeholder="Enter age">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="">--Select--</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <label for="course">Course:</label>
+            <select id="course" name="course">
+                <option value="">--Select Course--</option>
+                <option value="BSc">BSc</option>
+                <option value="BCom">BCom</option>
+                <option value="BA">BA</option>
+                <option value="BTech">BTech</option>
+            </select>
+            <label for="hobbies">Hobbies:</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="hobbies" value="Sports"> Sports</label>
+                <label><input type="checkbox" name="hobbies" value="Music"> Music</label>
+                <label><input type="checkbox" name="hobbies" value="Reading"> Reading</label>
+                <label><input type="checkbox" name="hobbies" value="Traveling"> Traveling</label>
+            </div>
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" placeholder="Enter address" rows="3"></textarea>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter password">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="terms"> I agree to the Terms & Conditions</label>
+            </div>
+            <div class="error" id="errorMsg"></div>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('registrationForm');
+        const errorMsg = document.getElementById('errorMsg');
+        form.addEventListener('submit', function(event) {
+            errorMsg.textContent = "";
+            let errors = [];
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const dob = document.getElementById('dob').value;
+            const age = document.getElementById('age').value.trim();
+            const gender = document.getElementById('gender').value;
+            const course = document.getElementById('course').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            const hobbies = Array.from(document.querySelectorAll('input[name="hobbies"]:checked'))
+                                 .map(el => el.value);
+            if(name === "") errors.push("Name is required.");
+            if(email === "") errors.push("Email is required.");
+            if(phone === "" || !/^\d{10}$/.test(phone)) errors.push("Enter a valid 10-digit phone number.");
+            if(dob === "") errors.push("Date of Birth is required.");
+            if(age === "" || age < 10 || age > 100) errors.push("Enter a valid age (10-100).");
+            if(gender === "") errors.push("Gender is required.");
+            if(course === "") errors.push("Course is required.");
+            if(hobbies.length === 0) errors.push("Select at least one hobby.");
+            if(password.length < 6) errors.push("Password must be at least 6 characters.");
+            if(password !== confirmPassword) errors.push("Passwords do not match.");
+            if(!terms) errors.push("You must agree to the Terms & Conditions.");
+            if(errors.length > 0) {
+                event.preventDefault();
+                errorMsg.innerHTML = errors.join("<br>");
+            } else {
+                alert("Registration Successful!");
+            }
+        });
+    </script>
+</body>
+</html>
